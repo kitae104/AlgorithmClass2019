@@ -11,6 +11,8 @@ import java.util.NoSuchElementException;
 import org.jsoup.nodes.Node;
 
 /**
+ * DOM 트리에서 노드를 순회하는데 사용되는 클래스 
+ * 
  * 일반적인 Iterable 객체 대신 
  * 노드를 반복적으로 탐색하는 로직과 그 노드를 처리하는 로직을 
  * 쉽고 깔끔하게 분리하기 위해 사용되는 클래스 

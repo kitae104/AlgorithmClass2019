@@ -11,6 +11,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/**
+ * 웹 페이지를 다운로드하고 파싱하는데 사용되는 클래스 
+ * @author kitae
+ *
+ */
 public class WikiFetcher {
 	private long lastRequestTime = -1;
 	private long minInterval = 1000;
@@ -42,7 +47,7 @@ public class WikiFetcher {
 		lastRequestTime = System.currentTimeMillis();
 	}
 
-	private Elements readWikipedia(String url) throws IOException {
+	public Elements readWikipedia(String url) throws IOException {
 		URL realURL = new URL(url);
 
 		// assemble the file name
