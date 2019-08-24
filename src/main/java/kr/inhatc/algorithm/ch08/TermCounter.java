@@ -118,7 +118,7 @@ public class TermCounter {
 		System.out.println("Total of all counts = " + size());
 	}
 
-	private Set<String> KeySet() {
+	public Set<String> KeySet() {
 		return map.keySet();
 	}
 	
@@ -128,6 +128,10 @@ public class TermCounter {
 			total += value;
 		}
 		return total;
+	}
+	
+	public String getLabel() {		
+		return label;
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -142,4 +146,8 @@ public class TermCounter {
 		counter.printCounts();
 
 	}
+
+	
+
+	
 }
