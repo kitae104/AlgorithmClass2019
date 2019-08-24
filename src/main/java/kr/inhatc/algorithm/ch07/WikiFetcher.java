@@ -18,7 +18,7 @@ public class WikiFetcher {
 	public Elements fetchWikipedia(String url) throws IOException {
 		sleepIfNeeds();
 
-		Connection conn = Jsoup.connect(url);
+		Connection conn = Jsoup.connect(url); 
 		Document doc = conn.get();
 		Element content = doc.getElementById("mw-content-text");
 		Elements paras = content.select("p");
