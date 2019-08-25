@@ -41,7 +41,7 @@ public class MyBetterMap<K, V> implements Map<K, V> {
 	 * k개의 MyLinearMap을 생성함  
 	 * @param k
 	 */
-	private void makeMaps(int k) {
+	protected void makeMaps(int k) {
 		maps = new ArrayList<>(k);		// ArrayList<MyLinearMap<K, V>>(k)
 		for (int i = 0; i < k; i++) {
 			maps.add(new MyLinearMap<>());	// new MyLinearMap<K, V>()
