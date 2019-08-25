@@ -29,7 +29,7 @@ public class MyHashMap<K, V> extends MyBetterMap<K, V> implements Map<K, V> {
 	/**
 	 * 맵 수를 두 배로 늘리고 기존 항목을 다시 해시합니다.
 	 */
-	private void rehash() {
+	protected void rehash() {
 //		System.out.println("size() " + size());
 //		System.out.println("rehash() 발생" + maps.size());
 		

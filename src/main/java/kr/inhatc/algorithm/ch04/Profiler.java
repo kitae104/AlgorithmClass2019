@@ -16,6 +16,11 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RefineryUtilities;
 
+/**
+ * 
+ * @author kitae
+ *
+ */
 public class Profiler extends ApplicationFrame {  
 
 	/**
