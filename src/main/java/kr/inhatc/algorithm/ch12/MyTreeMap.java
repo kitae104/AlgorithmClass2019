@@ -51,15 +51,27 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	}
 
 	private Node findNode(Object key) {
+		// 일부 구현은 null을 키로 다루기도 하지만 여기서는 아님 
 		if(key == null) {
 			throw new IllegalArgumentException();
 		}
 		
+		// 컴파일러 경고 무시 
 		//@SuppressWarnings("unchecked")
 		Comparable<? super K> k = (Comparable<? super K>) key;
 		
-		// 구현 필요!! 
-		
+		// 실제 탐색 
+		Node node = root;		// 루트 지정 
+		while(node != null) {
+			int cmp = k.compareTo(node.key);	// 키와 노드의 키를 비교한다. 
+			if(cmp < 0) {				// 키가 현재 노드보다 작은 경우 왼쪽으로 
+				node = node.left;
+			} else if(cmp > 0) {		// 키가 현재 노드보다 큰 경우 오른쪽으로매늠 
+				node = node.right;	
+			} else {
+				return node;			// 찾은 경우 
+			}
+		}		
 		return null;
 	}
 	
@@ -68,11 +80,37 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 		return containsValueHelper(root, value);
 	}
 
-	private boolean containsValueHelper(MyTreeMap<K, V>.Node root2, Object value) {
-		// 구현 필요!! 
+	private boolean containsValueHelper(Node node, Object value) {
+		// 노드가 null이면 대상을 찾지 못하고 바닥에 이른 상태이기 때문에 false
+		if(node == null) {
+			return false;
+		}
+		
+		// 원하는 것을 찾은 경우 
+		if(equals(value, node.value)) {
+			return true;
+		}
+		
+		// 왼쪽 트리에서 해당 값 찾기 
+		if(containsValueHelper(node.left, value)) {
+			return true;
+		}
+		
+		// 오른쪽 트리에서 해당 값 찾기 
+		if(containsValueHelper(node.right, value)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
+	private boolean equals(Object value, Object nodeValue) {
+		if(value == null) {
+			return nodeValue == null;
+		}
+		return value.equals(nodeValue);
+	}
+
 	@Override
 	public V get(Object key) {
 		Node node = findNode(key);
@@ -97,14 +135,40 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	}
 
 	private V putHelper(Node node, K key, V value) {
-		// 구현하기 
-		return null;
+		@SuppressWarnings("unchecked")
+		Comparable<? super K> k = (Comparable<? super K>) key;
+		
+		int cmp = k.compareTo(node.key);
+		
+		if(cmp < 0) {
+			// 찾지 못한 경우라면 새로운 노드를 추가하고 값을 설정 
+			if(node.left == null) {	
+				node.left = new Node(key, value);
+				size++;
+				return null;
+			} else {	// 이미 노드가 있는 경우라면 왼쪽으로 이동해서 반복 처리 
+				return putHelper(node.left, key, value);
+			}
+		} else if (cmp > 0) {
+			if(node.right == null) {
+				node.right = new Node(key, value);
+				size++;
+				return null;
+			} else {
+				return putHelper(node.right, key, value);
+			}
+		}
+		
+		// 노드를 찾은 경우 값을 바꾸고 이전 값을 반환 
+		V oldValue = node.value;
+		node.value = value;
+				
+		return oldValue;
 	}
 
 	@Override
 	public V remove(Object key) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -123,11 +187,23 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 
 	@Override
 	public Set<K> keySet() {
-		Set<K> set = new LinkedHashSet<>();
-		
-		// 이부분 채우기 
-		
+		Set<K> set = new LinkedHashSet<>();		
+		addInOrder(root, set);	// 중위 탐색 수행하기		
 		return set;
+	}
+
+	/**
+	 * 중위 탐색 수행하기 
+	 * @param node
+	 * @param set
+	 */
+	private void addInOrder(Node node, Set<K> set) {
+		if(node == null) {
+			return;
+		}
+		addInOrder(node.left, set);
+		set.add(node.key);
+		addInOrder(node.right, set);		
 	}
 
 	@Override
@@ -153,8 +229,29 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		Map<String, Integer> map = new MyTreeMap<>();
+		map.put("Word1", 1);
+		map.put("Word2", 2);
+		map.put("Word3", 3);
+		Integer value = map.get("Word1");
+		System.out.println(value);
+		
+		System.out.println(map.containsValue(1));
+		
+		for (String key : map.keySet()) {
+			System.out.println(key + " : " + map.get(key));
+		}
 
 	}
 
+	public MyTreeMap<K, V>.Node makeNode(K key, V value) {
+		return new Node(key, value);
+	}
+
+	public void setTree(Node node, int size ) {
+		this.root = node;
+		this.size = size;
+	}
+
+	
 }
