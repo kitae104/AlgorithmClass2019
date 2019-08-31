@@ -253,5 +253,16 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 		this.size = size;
 	}
 
-	
+	public int height() {
+		return heightHelper(root);
+	}
+
+	private int heightHelper(Node node) {
+		if(node == null) {
+			return 0;
+		} 
+		int left = heightHelper(node.left);
+		int right = heightHelper(node.right);
+		return Math.max(left, right) + 1;
+	}	
 }
