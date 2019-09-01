@@ -130,6 +130,10 @@ public class TermCounter {
 		return total;
 	}
 	
+	/**
+	 * 문서식별URL을 리턴한다.
+	 * @return
+	 */
 	public String getLabel() {		
 		return label;
 	}
