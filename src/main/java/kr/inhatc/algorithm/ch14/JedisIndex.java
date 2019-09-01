@@ -83,7 +83,7 @@ public class JedisIndex {
 	}
 
 	/**
-	 * TermCounter의 내용을 Redis로 푸시.
+	 * TermCounter의 내용을 Redis에 푸시.
 	 * @param tc
 	 */
 	private List<Object> pushTermCounterToRedis(TermCounter tc) {
@@ -95,11 +95,16 @@ public class JedisIndex {
 		// 이 페이지가 이미 색인화 된 경우; 오래된 해시를 삭제
 		t.del(hashName);
 		
-		// 각 용어에 대해, termCounter에 항목을 추가하고 
-		// 색인의 새 구성원을 추가하십시오.
+		// 각 용어에 대해, termCounter에 엔트리 항목을 추가하고 
+		// 색인의 새 멤버를 추가
 		for(String term : tc.KeySet()) {
 			Integer count = tc.get(term);
+			
+			// 레디스에서 TermCounter 객체를 찾거나 생성하고 새로운 
+			// 검색어에 대한 필드를 추가  
 			t.hset(hashName, term, count.toString());
+			
+			// 레디스에서 URLSet 객체를 찾거나 생성하고 현재 URL을 추가
 			t.sadd(urlSetKey(term), url);
 		}
 		
@@ -161,16 +166,19 @@ public class JedisIndex {
 	}
 		
 	/**
-	 * term을 찾고 URL에서 count할 맵을 반환합니다.
+	 * 검색어를 인자로 받아 검색어가 등장하는 각 URL과 등장 횟수를 
+	 * 매핑하는 맵을 반환
 	 * @param string
 	 * @return
 	 */
 	public Map<String, Integer> getCounts(String term) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
-		Set<String> urls = getURLs(term);
+		
+		Set<String> urls = getURLs(term);	// 검색어를 포함한 URL 집합 
+		
 		for (String url: urls) {
-			Integer count = getCount(url, term);
-			map.put(url, count);
+			Integer count = getCount(url, term);	// 검색어 등장 횟수 
+			map.put(url, count);					// URL과 검색어 등장 횟수 기록 
 		}
 		return map;
 	}
@@ -207,17 +215,18 @@ public class JedisIndex {
 	
 	/**
 	 * 색인에 페이지 추가.
+	 * Elements 객체는 익덱싱하려는 단락들의 DOM 트리 포함 
 	 * @param url
 	 * @param paragraphs
 	 */
 	public void indexPage(String url, Elements paragraphs) {
 		System.out.println("Indexing : " + url);
 		
-		// TermCounter를 만들고 paragraphs의 terms를 세기
+		// TermCounter를 만들고 paragraphs의 terms(검색어 수)를 세기
 		TermCounter tc = new TermCounter(url);
 		tc.processElements(paragraphs);
 		
-		// TermCounter의 내용을 Redis로 푸시
+		// TermCounter의 내용을 Redis에 푸시
 		pushTermCounterToRedis(tc);
 	}
 	
@@ -240,6 +249,14 @@ public class JedisIndex {
 		index.indexPage(url, paragraphs);
 	}
 	
+	/**
+	 * 주어진 URL에 대한 TermCounter가 있는지 확인합니다.
+	 */
+	public boolean isIndexed(String url) {
+		String redisKey = termCounterKey(url);
+		return jedis.exists(redisKey);	// 해당 키가 존재하는지 확인 
+	}
+	
 	public static void main(String[] args) throws IOException {
 		Jedis jedis = JedisMaker.make();
 		JedisIndex index = new JedisIndex(jedis);
@@ -257,5 +274,4 @@ public class JedisIndex {
 		}		
 	}
 
-	
 }
