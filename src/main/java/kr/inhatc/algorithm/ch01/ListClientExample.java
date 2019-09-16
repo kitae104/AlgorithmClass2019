@@ -5,22 +5,22 @@ import java.util.List;
 
 public class ListClientExample {
 	
-	@SuppressWarnings("rawtypes")
+	//@SuppressWarnings("rawtypes")
 	private List list;
 
-	@SuppressWarnings("rawtypes")
+	//@SuppressWarnings("rawtypes")
 	public ListClientExample() {
 		list = new LinkedList();
 	}
 
-	@SuppressWarnings("rawtypes")
+	//@SuppressWarnings("rawtypes")
 	public List getList() {
 		return list;
 	}
 
 	public static void main(String[] args) {
 		ListClientExample lce = new ListClientExample();
-		@SuppressWarnings("rawtypes")
+		//@SuppressWarnings("rawtypes")
 		List list = lce.getList();
 		System.out.println(list);
 	}

@@ -13,7 +13,7 @@ public class ListClientExampleTest {
 	@Test
 	public void testListClientExample() {
 		ListClientExample lce = new ListClientExample();
-		@SuppressWarnings("rawtypes")
+		//@SuppressWarnings("rawtypes")
 		List list = lce.getList();
 		assertThat(list, instanceOf(LinkedList.class) );
 	}
