@@ -14,10 +14,10 @@ public class ProfileListAdd {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//profileArrayListAddEnd();
+		profileArrayListAddEnd();
 		//profileArrayListAddBeginning();
 		//profileLinkedListAddBeginning();
-		profileLinkedListAddEnd();
+		//profileLinkedListAddEnd();
 	}
 
 	/**
@@ -27,10 +27,12 @@ public class ProfileListAdd {
 		Timeable timeable = new Timeable() {
 			List<String> list;
 
+			// 시간 측정을 수행하기 전에 필요한 일 수행 
 			public void setup(int n) {
 				list = new ArrayList<String>();
 			}
 
+			// 측정 작업 수행 
 			public void timeMe(int n) {
 				for (int i=0; i<n; i++) {
 					list.add("a string");	// 마지막에 추가 
@@ -38,7 +40,7 @@ public class ProfileListAdd {
 			}
 		};
 				
-		int startN = 4000;
+		int startN = 4000;  // 54000
 		int endMillis = 1000;
 		runProfiler("ArrayList add end", timeable, startN, endMillis);
 	}
@@ -110,7 +112,7 @@ public class ProfileListAdd {
 			}
 		};
 				
-		int startN = 64000;
+		int startN = 64000;  // 4000
 		int endMillis = 1000;
 		runProfiler("LinkedList add end", timeable, startN, endMillis);
 	}
@@ -124,6 +126,7 @@ public class ProfileListAdd {
 	 */
 	private static void runProfiler(String title, Timeable timeable, int startN, int endMillis) {
 		Profiler profiler = new Profiler(title, timeable);
+		// timeMe()를 범위 안에서 여러번 호출 
 		XYSeries series = profiler.timingLoop(startN, endMillis);
 		profiler.plotResults(series);
 	}
