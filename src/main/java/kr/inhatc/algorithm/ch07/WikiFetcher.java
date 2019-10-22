@@ -21,8 +21,7 @@ public class WikiFetcher {
 	private long minInterval = 1000;
 
 	public Elements fetchWikipedia(String url) throws IOException {
-		sleepIfNeeds();
-
+		sleepIfNeeds();		
 		Connection conn = Jsoup.connect(url); 
 		Document doc = conn.get();
 		Element content = doc.getElementById("mw-content-text");
