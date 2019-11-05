@@ -22,8 +22,11 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 		return entries.isEmpty();
 	}
 
+	/**
+	 * 해당 키를 포함하는지 확인
+	 */
 	@Override
-	public boolean containsKey(Object key) {		
+	public boolean containsKey(Object key) {			
 		return findEntry(key) != null;
 	}
 
@@ -34,6 +37,8 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 	 */
 	private Entry findEntry(Object key) {
 		for (Entry entry : entries) {
+			
+			// 두개의 키를 같은지 비교 
 			if(equals(key, entry.getKey())) {
 				return entry;
 			}
@@ -58,13 +63,16 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 		return target.equals(obj);
 	}
 	
+	/**
+	 * 키에 해당하는 값을 반환한다. 
+	 */
 	@Override
 	public V get(Object key) {
-		Entry entry = findEntry(key);
+		Entry entry = findEntry(key);	// 키에 해당하는 엔트리 찾기 
 		if(entry == null) {
 			return null;
 		}
-		return entry.getValue();
+		return entry.getValue();		// 해당 엔트리의 값을 반환 
 	}
 
 	/**
@@ -73,7 +81,7 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 	 */
 	@Override
 	public V put(K key, V value) {
-		Entry entry = findEntry(key);
+		Entry entry = findEntry(key);	// 키에 해당하는 엔트리 반환 
 		
 		if(entry == null) {
 			// 새로운 엔트리 추가 
@@ -81,9 +89,9 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 			return null;
 		} else {
 			// 기존에 존재하는 경우 
-			V oldValue = entry.getValue();
-			entry.setValue(value);
-			return oldValue;
+			V oldValue = entry.getValue();	// 기존에 존재하는 값 가져오기  
+			entry.setValue(value);			// 새로운 값을 엔트리에 설정 
+			return oldValue;				// 이전 값 반환 
 		}		
 	}
 

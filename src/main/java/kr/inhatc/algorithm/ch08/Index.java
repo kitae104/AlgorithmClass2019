@@ -70,6 +70,7 @@ public class Index {
 	 * @param paragraphs
 	 */
 	public void indexPage(String url, Elements paragraphs) {
+		
 		// TermCounter를 만들고 단락의 단어를 계산
 		TermCounter tc = new TermCounter(url);
 		tc.processElements(paragraphs);

@@ -17,5 +17,7 @@ public class LinkedListExample {
 		// 노드와 링크를 동시에 생성 
 		ListNode node0 = new ListNode(0, node1);
 		System.out.println(node0);
+		System.out.println(node0.next);
+		System.out.println(node0.next.next);
 	}
 }
