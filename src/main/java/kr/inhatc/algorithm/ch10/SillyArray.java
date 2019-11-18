@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class SillyArray {
 
-	private char[] array;
+	private final char[] array;
 	
 	public SillyArray(char[] array) {
 		this.array = array;
@@ -45,11 +45,13 @@ public class SillyArray {
 		
 		SillyArray array1 = new SillyArray("Word1".toCharArray());
 		map.put(array1, 1);
+		Integer value = map.get(array1);
+		System.out.println("value : " + value);
 		
 		array1.setChar(0, 'C');
 		
-		Integer value = map.get(array1);
-		System.out.println("value : " + value);
+		Integer value2 = map.get(array1);
+		System.out.println("value : " + value2);
 		
 		for (SillyArray key : map.keySet()) {
 			System.out.println(key + " : " + map.get(key));

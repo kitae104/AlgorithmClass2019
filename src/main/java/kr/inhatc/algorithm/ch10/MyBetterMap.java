@@ -102,6 +102,7 @@ public class MyBetterMap<K, V> implements Map<K, V> {
 		int index = 0;
 		if(key != null) {
 			index = Math.abs(key.hashCode() % maps.size());
+			//System.out.println("key : " + key + ", index : " + index);
 		}
 		
 		return maps.get(index);

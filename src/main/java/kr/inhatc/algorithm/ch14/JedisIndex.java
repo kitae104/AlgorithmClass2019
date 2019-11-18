@@ -99,7 +99,7 @@ public class JedisIndex {
 		// 색인의 새 멤버를 추가
 		for(String term : tc.KeySet()) {
 			Integer count = tc.get(term);
-			
+			System.out.println(term + " : " + count);
 			// 레디스에서 TermCounter 객체를 찾거나 생성하고 새로운 
 			// 검색어에 대한 필드를 추가  
 			t.hset(hashName, term, count.toString());
@@ -162,7 +162,7 @@ public class JedisIndex {
 		for (String key : keys) {
 			t.del(key);
 		}
-		t.exec();
+		t.exec();		// 트랜잭션 수행 
 	}
 		
 	/**
@@ -195,12 +195,13 @@ public class JedisIndex {
 		
 		// 모든 조회를 수행하는 트랜잭션 구성
 		Transaction t = jedis.multi();
+		
 		for (String url : urls) {
 			String redisKey = termCounterKey(url);
 			t.hget(redisKey, term);
 		}
 		
-		List<Object> res = t.exec();
+		List<Object> res = t.exec();		// 트랜잭션 수행 
 		
 		// 결과를 반복하고 맵을 만듭니다.
 		Map<String, Integer> map = new HashMap<>();

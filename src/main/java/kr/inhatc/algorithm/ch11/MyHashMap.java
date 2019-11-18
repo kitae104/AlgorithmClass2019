@@ -30,8 +30,8 @@ public class MyHashMap<K, V> extends MyBetterMap<K, V> implements Map<K, V> {
 	 * 맵 수를 두 배로 늘리고 기존 항목을 다시 해시합니다.
 	 */
 	protected void rehash() {
-//		System.out.println("size() " + size());
-//		System.out.println("rehash() 발생" + maps.size());
+		System.out.println("size() " + size());
+		System.out.println("rehash() 발생" + maps.size());
 		
 		// 기존 항목을 저장
 		List<MyLinearMap<K, V>> oldMap = maps;
@@ -39,7 +39,7 @@ public class MyHashMap<K, V> extends MyBetterMap<K, V> implements Map<K, V> {
 		// 기존 보다 2배 큰 Map 만들기
 		int k = maps.size() * 2;
 		makeMaps(k);
-//		System.out.println("내장된 맵의 크기 " + maps.size());
+		System.out.println("내장된 맵의 크기 " + maps.size());
 		
 		// 새 Map에 기존 항목을 다시 넣습니다.
 		for(MyLinearMap<K, V> map : oldMap) {

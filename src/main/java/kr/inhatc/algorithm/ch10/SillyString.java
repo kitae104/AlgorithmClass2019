@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class SillyString {
 
-	private String innerString;
+	private final String innerString;
 	
 	public SillyString(String innerString) {
 		this.innerString = innerString;
@@ -17,8 +17,8 @@ public class SillyString {
 	
 	@Override
 	public boolean equals(Object other) {
-		return this.toString().equals(other.toString());
-		//return this.hashCode() == other.hashCode();
+		//return this.toString().equals(other.toString());
+		return this.hashCode() == other.hashCode();
 	}
 
 	@Override
